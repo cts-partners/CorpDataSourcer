@@ -1,178 +1,640 @@
-# Private Equity Corporate Intelligence Dashboard
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PE Corporate Intelligence Dashboard - 2025</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        #root {
+            min-height: 100vh;
+        }
+        * {
+            transition: all 0.2s ease-in-out;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
 
-A comprehensive, interactive data source guide for PE firms conducting due diligence on small to mid-market companies.
+        // Icon Components
+        const Search = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        );
 
-## 🚀 Live Demo
+        const Building2 = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+            <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+            <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+            <path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path>
+          </svg>
+        );
 
-Visit: `https://[your-username].github.io/[your-repo-name]`
+        const Scale = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
+            <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
+            <path d="M7 21h10"></path><path d="M12 3v18"></path>
+            <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path>
+          </svg>
+        );
 
-## 📋 Features
+        const Users = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        );
 
-- **50+ Data Sources** across 7 major categories
-- **Interactive Filtering** by category and search
-- **Quality Ratings** for data accuracy and currentness
-- **Cost Assessments** from free to premium platforms
-- **Strategic Recommendations** for PE firms
-- **Mobile Responsive** design
+        const TrendingUp = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+            <polyline points="16 7 22 7 22 13"></polyline>
+          </svg>
+        );
 
-## 📊 Categories Covered
+        const Globe = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        );
 
-1. **Financial & Business Intelligence** - PitchBook, S&P Capital IQ, Bloomberg, etc.
-2. **Corporate Records** - D&B Hoovers, ZoomInfo, Global Database
-3. **Legal & Regulatory** - SEC EDGAR, PACER, Court Records
-4. **Intellectual Property** - USPTO, WIPO, Patent Databases
-5. **Market Intelligence** - IBISWorld, CB Insights, Nielsen IQ
-6. **People & Leadership** - LinkedIn, BoardEx, RelSci
-7. **Media & News** - WSJ, Financial Times, Axial
+        const Database = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+        );
 
-## 🛠️ Installation
+        const DollarSign = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        );
 
-### Option 1: GitHub Pages (Recommended)
+        const Award = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="8" r="7"></circle>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+          </svg>
+        );
 
-1. Fork or clone this repository
-2. Go to Settings → Pages
-3. Select "Deploy from main branch"
-4. Your site will be live at `https://[username].github.io/[repo-name]`
+        const AlertCircle = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        );
 
-### Option 2: Local Development
+        const CheckCircle = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        );
 
-1. Clone the repository:
-```bash
-git clone https://github.com/[your-username]/[your-repo-name].git
-cd [your-repo-name]
-```
+        const Clock = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        );
 
-2. Open `index.html` in your browser:
-```bash
-open index.html
-```
+        const Star = () => (
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        );
 
-That's it! No build process or dependencies required.
+        // Main App Component
+        const DataSourceReport = () => {
+          const [selectedCategory, setSelectedCategory] = useState('all');
+          const [searchTerm, setSearchTerm] = useState('');
 
-## 📁 File Structure
+          const categories = [
+            { id: 'financial', name: 'Financial & Business Intelligence', icon: DollarSign, color: 'bg-blue-500' },
+            { id: 'legal', name: 'Legal & Regulatory', icon: Scale, color: 'bg-purple-500' },
+            { id: 'ip', name: 'Intellectual Property', icon: Award, color: 'bg-green-500' },
+            { id: 'corporate', name: 'Corporate Records', icon: Building2, color: 'bg-orange-500' },
+            { id: 'market', name: 'Market Intelligence', icon: TrendingUp, color: 'bg-red-500' },
+            { id: 'people', name: 'People & Leadership', icon: Users, color: 'bg-indigo-500' },
+            { id: 'media', name: 'Media & News', icon: Globe, color: 'bg-yellow-500' }
+          ];
 
-```
-├── index.html          # Main HTML file
-├── app.js             # React application logic
-├── styles.css         # Custom styles
-└── README.md          # This file
-```
+          const dataSources = [
+            {
+              category: 'financial',
+              name: 'PitchBook',
+              url: 'https://pitchbook.com',
+              description: 'Comprehensive PE/VC/M&A database with valuations, deal multiples, investor networks, and EBITDA data',
+              dataTypes: ['Financials', 'EBITDA', 'Valuations', 'Deal History', 'Investor Networks', 'Exit Data'],
+              coverage: 'Global, strong in US/EMEA',
+              quality: 5,
+              currentness: 5,
+              cost: 'High ($$$)',
+              bestFor: 'PE/VC deal teams, middle-market to enterprise',
+              lastUpdated: 'Real-time',
+              limitations: 'High cost; mid-market non-tech coverage can be inconsistent'
+            },
+            {
+              category: 'financial',
+              name: 'S&P Capital IQ / Market Intelligence',
+              url: 'https://www.spglobal.com/marketintelligence',
+              description: 'Global company financials, credit ratings, ownership structures, and macroeconomic forecasts',
+              dataTypes: ['Financials', 'Credit Ratings', 'Ownership', 'KPIs', 'Risk Metrics', 'Balance Sheets'],
+              coverage: 'Global institutional scale',
+              quality: 5,
+              currentness: 5,
+              cost: 'High ($$$)',
+              bestFor: 'Global institutions, credit analysts, debt investors',
+              lastUpdated: 'Real-time',
+              limitations: 'Smaller firms may have limited coverage; enterprise pricing'
+            },
+            {
+              category: 'financial',
+              name: 'FactSet',
+              url: 'https://www.factset.com',
+              description: 'Unified structured/unstructured data including sentiment, transaction data, and alternative datasets',
+              dataTypes: ['Financials', 'Alternative Data', 'Sentiment Analysis', 'Transaction Data'],
+              coverage: 'Global',
+              quality: 5,
+              currentness: 5,
+              cost: 'High ($$$)',
+              bestFor: 'Mid-sized hedge funds, fintechs, quant teams',
+              lastUpdated: 'Real-time',
+              limitations: 'Premium pricing; requires technical integration'
+            },
+            {
+              category: 'financial',
+              name: 'Grata',
+              url: 'https://grata.com',
+              description: 'Specialized in sourcing middle-market companies in fragmented or overlooked industries',
+              dataTypes: ['Company Profiles', 'SMB/Mid-Market Data', 'Industry Segmentation', 'Contact Info'],
+              coverage: 'US-focused, lower/middle market',
+              quality: 4,
+              currentness: 4,
+              cost: 'Medium ($$)',
+              bestFor: 'PE firms targeting lower/middle market',
+              lastUpdated: 'Daily updates',
+              limitations: 'Less coverage of large enterprises or early-stage startups'
+            },
+            {
+              category: 'financial',
+              name: 'Crunchbase',
+              url: 'https://www.crunchbase.com',
+              description: 'Startup and early-stage company coverage with funding rounds and investor data',
+              dataTypes: ['Funding Rounds', 'Investor Data', 'Startup Profiles', 'Technology Focus'],
+              coverage: 'Global, startup-focused',
+              quality: 4,
+              currentness: 5,
+              cost: 'Low-Medium ($-$$)',
+              bestFor: 'Startup investors, innovation tracking',
+              lastUpdated: 'Real-time community-driven',
+              limitations: 'Limited depth on mature companies and industrials'
+            },
+            {
+              category: 'corporate',
+              name: 'Dun & Bradstreet (D&B Hoovers)',
+              url: 'https://www.dnb.com/products/marketing-sales/dnb-hoovers.html',
+              description: 'Global commercial database with 250M+ companies, DUNS numbers, credit ratings, and hierarchies',
+              dataTypes: ['Company Profiles', 'Credit Ratings', 'DUNS Numbers', 'Hierarchies', 'Contacts'],
+              coverage: 'Global - 250M+ companies',
+              quality: 4,
+              currentness: 3,
+              cost: 'Medium-High ($$-$$$)',
+              bestFor: 'Sales intelligence, credit risk, global supply chain',
+              lastUpdated: 'Daily updates claimed',
+              limitations: 'Data accuracy issues reported; outdated contacts'
+            },
+            {
+              category: 'corporate',
+              name: 'ZoomInfo',
+              url: 'https://www.zoominfo.com',
+              description: 'B2B intelligence platform with AI-driven insights, intent data, and extensive contact database',
+              dataTypes: ['Contact Information', 'Intent Data', 'Org Charts', 'Technology Stack'],
+              coverage: 'US-focused, expanding globally',
+              quality: 4,
+              currentness: 5,
+              cost: 'High ($$$)',
+              bestFor: 'Sales prospecting, marketing, lead generation',
+              lastUpdated: 'Real-time',
+              limitations: 'Phone number accuracy issues; very expensive'
+            },
+            {
+              category: 'legal',
+              name: 'SEC EDGAR',
+              url: 'https://www.sec.gov/edgar',
+              description: 'Free public access to US public company filings including 10-K, 10-Q, 8-K, proxy statements',
+              dataTypes: ['10-K Reports', '10-Q Reports', '8-K Filings', 'Proxy Statements', 'IPO Filings'],
+              coverage: 'US public companies + some international',
+              quality: 5,
+              currentness: 5,
+              cost: 'Free',
+              bestFor: 'Public company due diligence, financial analysis',
+              lastUpdated: 'Real-time as filed',
+              limitations: 'Public companies only; limited private company data'
+            },
+            {
+              category: 'legal',
+              name: 'PACER',
+              url: 'https://pacer.uscourts.gov',
+              description: 'Federal court electronic records - litigation, bankruptcy, and appeals nationwide',
+              dataTypes: ['Federal Litigation', 'Dockets', 'Court Filings', 'Bankruptcy Records'],
+              coverage: 'All US federal courts',
+              quality: 5,
+              currentness: 5,
+              cost: 'Low ($0.10/page, $30/qtr waived)',
+              bestFor: 'Litigation research, due diligence, compliance',
+              lastUpdated: 'Real-time',
+              limitations: 'Pay-per-page model; interface dated'
+            },
+            {
+              category: 'ip',
+              name: 'USPTO PatentsView',
+              url: 'https://patentsview.org',
+              description: 'Comprehensive US patent database with bulk download capabilities and detailed analytics',
+              dataTypes: ['Patent Grants', 'Patent Applications', 'Inventors', 'Assignees', 'Citations'],
+              coverage: 'US patents since 1976; applications since 2001',
+              quality: 5,
+              currentness: 5,
+              cost: 'Free',
+              bestFor: 'Patent research, IP due diligence, competitive intelligence',
+              lastUpdated: 'Weekly',
+              limitations: 'US patents only; complex data structure'
+            },
+            {
+              category: 'market',
+              name: 'IBISWorld',
+              url: 'https://www.ibisworld.com',
+              description: 'Industry research reports with market size, trends, forecasts, and competitive landscape',
+              dataTypes: ['Industry Reports', 'Market Size', 'Trends', 'Forecasts', 'Competitive Analysis'],
+              coverage: 'US, Global - 1,300+ industries',
+              quality: 4,
+              currentness: 4,
+              cost: 'Medium-High ($$-$$$)',
+              bestFor: 'Market sizing, industry analysis, investment thesis',
+              lastUpdated: 'Monthly updates',
+              limitations: 'Industry-level only, not company-specific'
+            },
+            {
+              category: 'people',
+              name: 'LinkedIn Sales Navigator',
+              url: 'https://business.linkedin.com/sales-solutions',
+              description: 'Professional network with 900M+ members - leadership identification and org charts',
+              dataTypes: ['Professional Profiles', 'Job Titles', 'Career History', 'Connections'],
+              coverage: 'Global - 900M+ professionals',
+              quality: 4,
+              currentness: 5,
+              cost: 'Low-Medium ($-$$)',
+              bestFor: 'Leadership research, network mapping, warm introductions',
+              lastUpdated: 'Real-time user updates',
+              limitations: 'Self-reported data; privacy restrictions'
+            },
+            {
+              category: 'media',
+              name: 'Wall Street Journal / Dow Jones',
+              url: 'https://www.wsj.com',
+              description: 'Financial news, M&A coverage, and business intelligence with global reach',
+              dataTypes: ['Financial News', 'M&A Announcements', 'Earnings Reports', 'Market Analysis'],
+              coverage: 'Global',
+              quality: 5,
+              currentness: 5,
+              cost: 'Low ($ subscription)',
+              bestFor: 'Market trends, deal flow, competitive intelligence',
+              lastUpdated: 'Real-time',
+              limitations: 'News/analysis only, not structured data'
+            }
+          ];
 
-## 💡 Usage
+          const getQualityBadge = (rating) => {
+            const badges = {
+              5: { text: 'Excellent', color: 'bg-green-100 text-green-800' },
+              4: { text: 'Very Good', color: 'bg-blue-100 text-blue-800' },
+              3: { text: 'Good', color: 'bg-yellow-100 text-yellow-800' }
+            };
+            const badge = badges[rating] || badges[3];
+            return (
+              <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${badge.color}`}>
+                {rating >= 4 ? <CheckCircle /> : <AlertCircle />}
+                {badge.text}
+              </span>
+            );
+          };
 
-### Search
-Type keywords to filter sources by name, description, or data type.
+          const filteredSources = dataSources.filter(source => {
+            const matchesCategory = selectedCategory === 'all' || source.category === selectedCategory;
+            const matchesSearch = searchTerm === '' || 
+              source.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              source.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              source.dataTypes.some(type => type.toLowerCase().includes(searchTerm.toLowerCase()));
+            return matchesCategory && matchesSearch;
+          });
 
-### Filter by Category
-Click category buttons to view sources in specific areas:
-- All Sources
-- Financial & Business Intelligence
-- Legal & Regulatory
-- Intellectual Property
-- Corporate Records
-- Market Intelligence
-- People & Leadership
-- Media & News
+          const getCategoryColor = (categoryId) => {
+            return categories.find(c => c.id === categoryId)?.color || 'bg-gray-500';
+          };
 
-### View Details
-Each source card displays:
-- Quality and currentness ratings
-- Cost level
-- Coverage scope
-- Available data types
-- Best use cases
-- Known limitations
-- Direct links to platforms
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+              <div className="max-w-7xl mx-auto">
+                <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h1 className="text-3xl font-bold text-slate-900 mb-2">
+                        Private Equity Corporate Intelligence
+                      </h1>
+                      <h2 className="text-xl text-slate-600 mb-4">
+                        Comprehensive Data Source Guide - 2025
+                      </h2>
+                      <p className="text-slate-600 max-w-4xl">
+                        Fortune 10 caliber intelligence framework for PE firms conducting due diligence on small to mid-market companies.
+                      </p>
+                    </div>
+                    <Database />
+                  </div>
+                  
+                  <div className="grid grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-200">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-600">{dataSources.length}</div>
+                      <div className="text-sm text-slate-600">Total Sources</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-600">
+                        {dataSources.filter(s => s.cost === 'Free').length}
+                      </div>
+                      <div className="text-sm text-slate-600">Free Resources</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-purple-600">
+                        {dataSources.filter(s => s.quality === 5).length}
+                      </div>
+                      <div className="text-sm text-slate-600">Premium Quality</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-orange-600">{categories.length}</div>
+                      <div className="text-sm text-slate-600">Categories</div>
+                    </div>
+                  </div>
+                </div>
 
-## 🎯 Target Audience
+                <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Search Sources</label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-3">
+                        <Search />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Search by name, description, or data type..."
+                        className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                  </div>
 
-- Private Equity Analysts
-- M&A Professionals
-- Investment Bankers
-- Due Diligence Teams
-- Corporate Development
-- Business Intelligence Researchers
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-3">Filter by Category</label>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={() => setSelectedCategory('all')}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                          selectedCategory === 'all'
+                            ? 'bg-slate-900 text-white shadow-md'
+                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        }`}
+                      >
+                        All Sources ({dataSources.length})
+                      </button>
+                      {categories.map(cat => {
+                        const Icon = cat.icon;
+                        const count = dataSources.filter(s => s.category === cat.id).length;
+                        return (
+                          <button
+                            key={cat.id}
+                            onClick={() => setSelectedCategory(cat.id)}
+                            className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                              selectedCategory === cat.id
+                                ? `${cat.color} text-white shadow-md`
+                                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                            }`}
+                          >
+                            <Icon />
+                            {cat.name} ({count})
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
 
-## 🔧 Customization
+                <div className="mb-4 text-slate-600">
+                  Showing <span className="font-semibold">{filteredSources.length}</span> sources
+                </div>
 
-### Add New Sources
+                <div className="space-y-4">
+                  {filteredSources.map((source, idx) => (
+                    <div key={idx} className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-xl font-bold text-slate-900">{source.name}</h3>
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getCategoryColor(source.category)}`}>
+                              {categories.find(c => c.id === source.category)?.name}
+                            </span>
+                          </div>
+                          <a 
+                            href={source.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1"
+                          >
+                            {source.url}
+                            <Globe />
+                          </a>
+                        </div>
+                      </div>
 
-Edit `app.js` and add to the `dataSources` array:
+                      <p className="text-slate-700 mb-4">{source.description}</p>
 
-```javascript
-{
-  category: 'financial',
-  name: 'Your Source Name',
-  url: 'https://example.com',
-  description: 'Source description',
-  dataTypes: ['Data Type 1', 'Data Type 2'],
-  coverage: 'Coverage area',
-  quality: 5,  // 1-5 rating
-  currentness: 5,  // 1-5 rating
-  cost: 'Medium ($$)',
-  bestFor: 'Use case description',
-  lastUpdated: 'Update frequency',
-  limitations: 'Known limitations'
-}
-```
+                      <div className="grid grid-cols-4 gap-4 mb-4 p-4 bg-slate-50 rounded-lg">
+                        <div>
+                          <div className="text-xs text-slate-600 mb-1 flex items-center gap-1">
+                            <Star />
+                            Quality
+                          </div>
+                          {getQualityBadge(source.quality)}
+                        </div>
+                        <div>
+                          <div className="text-xs text-slate-600 mb-1 flex items-center gap-1">
+                            <Clock />
+                            Currentness
+                          </div>
+                          {getQualityBadge(source.currentness)}
+                        </div>
+                        <div>
+                          <div className="text-xs text-slate-600 mb-1">Cost</div>
+                          <span className="text-sm font-semibold text-slate-900">{source.cost}</span>
+                        </div>
+                        <div>
+                          <div className="text-xs text-slate-600 mb-1">Updated</div>
+                          <span className="text-sm font-semibold text-slate-900">{source.lastUpdated}</span>
+                        </div>
+                      </div>
 
-### Modify Categories
+                      <div className="mb-4">
+                        <div className="text-xs font-medium text-slate-600 mb-2">Data Types</div>
+                        <div className="flex flex-wrap gap-2">
+                          {source.dataTypes.map((type, i) => (
+                            <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
+                              {type}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
 
-Edit the `categories` array in `app.js`:
+                      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200">
+                        <div>
+                          <div className="text-xs font-medium text-slate-600 mb-1">Coverage</div>
+                          <div className="text-sm text-slate-900">{source.coverage}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs font-medium text-slate-600 mb-1">Best For</div>
+                          <div className="text-sm text-slate-900">{source.bestFor}</div>
+                        </div>
+                      </div>
 
-```javascript
-{ 
-  id: 'category-id', 
-  name: 'Category Name', 
-  icon: IconComponent, 
-  color: 'bg-color-500' 
-}
-```
+                      {source.limitations && (
+                        <div className="mt-4 pt-4 border-t border-slate-200">
+                          <div className="flex items-start gap-2">
+                            <div className="mt-0.5">
+                              <AlertCircle />
+                            </div>
+                            <div>
+                              <div className="text-xs font-medium text-slate-600 mb-1">Limitations</div>
+                              <div className="text-sm text-slate-700">{source.limitations}</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
 
-## 📱 Browser Support
+                <div className="mt-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl shadow-lg p-8 text-white">
+                  <h2 className="text-2xl font-bold mb-4">Strategic Recommendations</h2>
+                  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-semibold mb-3 flex items-center gap-2">
+                        <CheckCircle />
+                        Essential Stack (All PE Firms)
+                      </h3>
+                      <ul className="space-y-2 text-sm text-blue-50">
+                        <li>• <strong>PitchBook or S&P Capital IQ</strong> - Core financial intelligence</li>
+                        <li>• <strong>SEC EDGAR</strong> - Free public company filings</li>
+                        <li>• <strong>PACER</strong> - Federal litigation research</li>
+                        <li>• <strong>USPTO PatentsView</strong> - IP intelligence</li>
+                        <li>• <strong>LinkedIn Sales Navigator</strong> - Leadership research</li>
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <h3 className="font-semibold mb-3 flex items-center gap-2">
+                        <TrendingUp />
+                        Enhanced Stack (Mid-Market Focus)
+                      </h3>
+                      <ul className="space-y-2 text-sm text-blue-50">
+                        <li>• <strong>Grata</strong> - Middle-market sourcing</li>
+                        <li>• <strong>D&B Hoovers or ZoomInfo</strong> - Company intelligence</li>
+                        <li>• <strong>IBISWorld</strong> - Industry analysis</li>
+                        <li>• <strong>State Corporate Registries</strong> - Ownership verification</li>
+                      </ul>
+                    </div>
+                  </div>
 
-- Chrome (recommended)
-- Firefox
-- Safari
-- Edge
-- Mobile browsers
+                  <div className="mt-6 pt-6 border-t border-blue-500">
+                    <h3 className="font-semibold mb-3">Best Practices</h3>
+                    <div className="grid md:grid-cols-3 gap-4 text-sm text-blue-50">
+                      <div>
+                        <strong>Multi-Source Verification</strong>
+                        <p className="mt-1 opacity-90">Cross-reference financial data across 3+ sources for accuracy</p>
+                      </div>
+                      <div>
+                        <strong>Automated Monitoring</strong>
+                        <p className="mt-1 opacity-90">Set up alerts in PitchBook, PACER, and news sources for target companies</p>
+                      </div>
+                      <div>
+                        <strong>Build Data Stack</strong>
+                        <p className="mt-1 opacity-90">No single database covers everything - layer complementary sources</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-## 🔒 Privacy & Security
+                <div className="mt-8 text-center text-sm text-slate-600 bg-white rounded-xl shadow-md p-6">
+                  <p className="mb-2">
+                    <strong>Report Compiled:</strong> October 2025 | 
+                    <strong className="ml-2">Data Sources:</strong> {dataSources.length} verified platforms
+                  </p>
+                  <p className="text-xs opacity-75">
+                    Quality ratings based on data accuracy, coverage depth, update frequency, and user reviews. 
+                    Cost indicators: $ = Under $5K/year, $ = $5K-$25K, $$ = $25K-$100K, $$ = $100K+
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        };
 
-- No data collection
-- No external API calls
-- Runs entirely in the browser
-- No cookies or tracking
-
-## 📄 License
-
-MIT License - feel free to use and modify for your organization.
-
-## 🤝 Contributing
-
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
-
-## 📞 Support
-
-For issues or questions:
-- Create an issue on GitHub
-- Review existing documentation
-- Check browser console for errors
-
-## 🎓 Credits
-
-Built with:
-- React 18
-- Tailwind CSS
-- Lucide Icons
-
-## 📈 Version History
-
-- **v1.0.0** (October 2025) - Initial release with 50+ data sources
-
----
-
-**Note:** This dashboard provides information about data sources but does not connect to them. Users need separate subscriptions/accounts for premium platforms.
+        ReactDOM.render(<DataSourceReport />, document.getElementById('root'));
+    </script>
+</body>
+</html>
