@@ -1,0 +1,178 @@
+# Private Equity Corporate Intelligence Dashboard
+
+A comprehensive, interactive data source guide for PE firms conducting due diligence on small to mid-market companies.
+
+## 🚀 Live Demo
+
+Visit: `https://[your-username].github.io/[your-repo-name]`
+
+## 📋 Features
+
+- **50+ Data Sources** across 7 major categories
+- **Interactive Filtering** by category and search
+- **Quality Ratings** for data accuracy and currentness
+- **Cost Assessments** from free to premium platforms
+- **Strategic Recommendations** for PE firms
+- **Mobile Responsive** design
+
+## 📊 Categories Covered
+
+1. **Financial & Business Intelligence** - PitchBook, S&P Capital IQ, Bloomberg, etc.
+2. **Corporate Records** - D&B Hoovers, ZoomInfo, Global Database
+3. **Legal & Regulatory** - SEC EDGAR, PACER, Court Records
+4. **Intellectual Property** - USPTO, WIPO, Patent Databases
+5. **Market Intelligence** - IBISWorld, CB Insights, Nielsen IQ
+6. **People & Leadership** - LinkedIn, BoardEx, RelSci
+7. **Media & News** - WSJ, Financial Times, Axial
+
+## 🛠️ Installation
+
+### Option 1: GitHub Pages (Recommended)
+
+1. Fork or clone this repository
+2. Go to Settings → Pages
+3. Select "Deploy from main branch"
+4. Your site will be live at `https://[username].github.io/[repo-name]`
+
+### Option 2: Local Development
+
+1. Clone the repository:
+```bash
+git clone https://github.com/[your-username]/[your-repo-name].git
+cd [your-repo-name]
+```
+
+2. Open `index.html` in your browser:
+```bash
+open index.html
+```
+
+That's it! No build process or dependencies required.
+
+## 📁 File Structure
+
+```
+├── index.html          # Main HTML file
+├── app.js             # React application logic
+├── styles.css         # Custom styles
+└── README.md          # This file
+```
+
+## 💡 Usage
+
+### Search
+Type keywords to filter sources by name, description, or data type.
+
+### Filter by Category
+Click category buttons to view sources in specific areas:
+- All Sources
+- Financial & Business Intelligence
+- Legal & Regulatory
+- Intellectual Property
+- Corporate Records
+- Market Intelligence
+- People & Leadership
+- Media & News
+
+### View Details
+Each source card displays:
+- Quality and currentness ratings
+- Cost level
+- Coverage scope
+- Available data types
+- Best use cases
+- Known limitations
+- Direct links to platforms
+
+## 🎯 Target Audience
+
+- Private Equity Analysts
+- M&A Professionals
+- Investment Bankers
+- Due Diligence Teams
+- Corporate Development
+- Business Intelligence Researchers
+
+## 🔧 Customization
+
+### Add New Sources
+
+Edit `app.js` and add to the `dataSources` array:
+
+```javascript
+{
+  category: 'financial',
+  name: 'Your Source Name',
+  url: 'https://example.com',
+  description: 'Source description',
+  dataTypes: ['Data Type 1', 'Data Type 2'],
+  coverage: 'Coverage area',
+  quality: 5,  // 1-5 rating
+  currentness: 5,  // 1-5 rating
+  cost: 'Medium ($$)',
+  bestFor: 'Use case description',
+  lastUpdated: 'Update frequency',
+  limitations: 'Known limitations'
+}
+```
+
+### Modify Categories
+
+Edit the `categories` array in `app.js`:
+
+```javascript
+{ 
+  id: 'category-id', 
+  name: 'Category Name', 
+  icon: IconComponent, 
+  color: 'bg-color-500' 
+}
+```
+
+## 📱 Browser Support
+
+- Chrome (recommended)
+- Firefox
+- Safari
+- Edge
+- Mobile browsers
+
+## 🔒 Privacy & Security
+
+- No data collection
+- No external API calls
+- Runs entirely in the browser
+- No cookies or tracking
+
+## 📄 License
+
+MIT License - feel free to use and modify for your organization.
+
+## 🤝 Contributing
+
+Contributions welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+
+## 📞 Support
+
+For issues or questions:
+- Create an issue on GitHub
+- Review existing documentation
+- Check browser console for errors
+
+## 🎓 Credits
+
+Built with:
+- React 18
+- Tailwind CSS
+- Lucide Icons
+
+## 📈 Version History
+
+- **v1.0.0** (October 2025) - Initial release with 50+ data sources
+
+---
+
+**Note:** This dashboard provides information about data sources but does not connect to them. Users need separate subscriptions/accounts for premium platforms.
